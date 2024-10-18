@@ -13,9 +13,11 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
             {
                 saida[0] = i;
                 saida[1] = j;
+                *returnSize = 2;
+            return saida;
             }
         }
     }
-    *returnSize = 2;
-    return saida;
+    free(saida);
+    return NULL;
 }
