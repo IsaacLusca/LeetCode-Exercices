@@ -1,27 +1,31 @@
-typedef struct no{
-    char elem;
-    struct pilha *prox;
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct no
+{
+    char caractere;
+    struct no *prox;
 }No;
 
-No *add(No *topo, char caract)
+No *empilhar(No *topo, char caract)
 {
     No *novo = malloc(sizeof(No));
-    if(novo == NULL)
+    if (!novo)
     {
+        printf("Deu ruim!\n");
         return NULL;
     }
-    novo->elem = caract;
+    novo->caractere = caract;
     novo->prox = topo;
     topo = novo;
-
     return topo;
+
 }
 
-No *rem(No *topo)
+No *desempilhar(No *topo)
 {
-    if (topo == NULL)
+    if (!topo)
     {
-        printf("Sem valor para desempilhar/n");
         return NULL;
     }
     No *remover = topo;
@@ -31,36 +35,32 @@ No *rem(No *topo)
 }
 
 bool isValid(char* s) {
-    No *topo = NULL;
     int n = strlen(s);
-    int i = 0;
-    while (s[i] != '\0')
+    No *topo = NULL;
+    for (int i = 0; i < n; i++)
     {
         if (s[i] == '(' || s[i] == '[' || s[i] == '{')
         {
-            topo = add(topo, s[i]);
+            topo = empilhar(topo, s[i]);
         }
-        else if(s[i] == ')' || s[i] == ']' || s[i] == '}')
+        else if (s[i] == ')' || s[i] == ']' || s[i] == '}')
         {
             if (topo == NULL)
             {
                 return false;
             }
-            char topChar = topo->elem;
-            topo = rem(topo);
-            if (s[i] == ')' && topChar != '(' ||
-                s[i] == ']' && topChar != '[' ||
-                s[i] == '}' && topChar != '{'
-            )
+            char check = topo->caractere;
+            topo = desempilhar(topo);
+            if (s[i] == ')' && check != '(' || s[i] == ']' && check != '[' || s[i] == '}' && check != '{')
             {
                 return false;
             }
         }
-        i++;
     }
+    
     if (topo == NULL)
     {
         return true;
-    } 
+    }
     return false;
 }
