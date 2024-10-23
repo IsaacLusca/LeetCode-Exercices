@@ -58,5 +58,9 @@ bool isValid(char* s) {
         }
         i++;
     }
-    return topo == NULL; 
+    if (topo == NULL)
+    {
+        return true;
+    } 
+    return false;
 }
